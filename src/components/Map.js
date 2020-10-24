@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {MapContext} from './MapContext'
-import { GoogleMap, useLoadScript} from '@react-google-maps/api'
+import { GoogleMap } from '@react-google-maps/api'
+import DrawingComponent from './DrawingComponent'
 
 const options = {
   disableDefaultUI: true,
@@ -8,7 +9,7 @@ const options = {
 }
 
 const Map = () => {
-  const [ myMap, setMyMap, center, setCenter, isLoaded] = useContext(MapContext);
+  const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw] = useContext(MapContext);
   
   const renderMap = () => (
     <>
@@ -22,6 +23,7 @@ const Map = () => {
           onLoad={map => setMyMap(map)}
           options={options}
         >
+            <DrawingComponent/>
         </GoogleMap>
     </>
   )

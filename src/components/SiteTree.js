@@ -7,55 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {MapContext} from './MapContext'
 
-const nodes1 = [
-    {
-        value: 'Site1',
-        label: 'Site1',
-        data: {info: 'CoolBeans'},
-        children: [
-            {
-                value: '+',
-                label: '+',
-                icon: <FontAwesomeIcon icon={faHome} />,
-                disabled: true,
-            },
-            {
-                value: 'Trench',
-                label: 'Trench',
-                icon: <i className="far fa-file-pdf" />,
-            },
-            {
-                value: 'Tools1',
-                label: 'Tools',
-                data: {info: 'CoolBeans'},
-                icon: <i className="far fa-file-alt" />,
-            },
-        ],
-    },
-    {
-        value: 'Site2',
-        label: 'Site2',
-        children: [
-            {
-                value: 'Tools2',
-                label: 'Tools',
-                icon: <i className="fa fa-file-image-o" />,
-            },
-            {
-                value: 'Mods',
-                label: 'Mods',
-                icon: <i className="fa fa-file-image-o" />,
-            },
-        ],
-    },
-];
-
 const SiteTree = () => {
-    const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw] = useContext(MapContext);
-    const [nodes, setNodes] = useState(nodes1)
+    const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes] = useContext(MapContext);
     const [checked, setChecked] = useState(['Mods'])
     const [expanded, setExpanded] = useState([])
-    const [target, setTarget] = useState('')
+    const [name, setName]= useState('')
 
     const onCheck = (checked) => {
         setChecked(checked);
@@ -70,13 +26,24 @@ const SiteTree = () => {
         console.log(e)
         if (e.value === '+'){
             console.log('+ clicked')
-            // we set this to true instead of !draw because we dont want the user to be able to click it again
             setDraw(true)
+            if (!draw){
+                addItem(e)
+            }
       }
     }
-
-    const updateNodes = (newNodes) =>{
-        setNodes(newNodes)
+    const addItem = (target) => {
+        // updateDM()
+        let newNode = {
+                value: 'TEST',
+                label: 'TEST'
+                // icon: <FontAwesomeIcon icon={faHome} />,
+        }
+        setNodes(nodes.map(item => 
+            item.children === target.parent.children
+            ? {...item, children : target.parent.children.concat(newNode)} 
+            : item
+        )); 
     }
 
     return (

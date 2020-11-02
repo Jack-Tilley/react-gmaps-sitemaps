@@ -64,6 +64,16 @@ DrawingManager{
   padding: 0;
 }
 
+form{
+  z-index: 13;
+}
+.TextField{
+  z-index: 15;
+}
+.Button{
+  z-index: 16;
+}
+
 .search {
   position: absolute;
   top: 1rem;

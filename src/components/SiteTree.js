@@ -5,6 +5,7 @@ import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import AddNodeForm from './AddNodeForm'
 import {MapContext} from './MapContext'
 
 const SiteTree = () => {
@@ -25,18 +26,26 @@ const SiteTree = () => {
     const onClick = (e) => {
         console.log(e)
         if (e.value === '+'){
+
             console.log('+ clicked')
-            setDraw(true)
-            if (!draw){
-                addItem(e)
-            }
+
+
+
+            // setDraw(true)
+
+    //         if (!draw){
+    //             addItem(e)
+    //         }
+    //   } else if (e.value === 'TEST'){
+    //       console.log('Test was clicked')
       }
     }
     const addItem = (target) => {
         // updateDM()
         let newNode = {
                 value: 'TEST',
-                label: 'TEST'
+                label: <AddNodeForm/>,
+                icon: ''
                 // icon: <FontAwesomeIcon icon={faHome} />,
         }
         setNodes(nodes.map(item => 

@@ -6,13 +6,18 @@ import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import AddNodeForm from './AddNodeForm'
+import AddNodeModal from './AddNodeModal'
 import {MapContext} from './MapContext'
 
+
 const SiteTree = () => {
-    const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes] = useContext(MapContext);
+    const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes, activeNode, setActiveNode] = useContext(MapContext);
     const [checked, setChecked] = useState(['Mods'])
     const [expanded, setExpanded] = useState([])
-    const [name, setName]= useState('')
+    const [value, setValue]= useState('')
+    const [nodeType, setNodeType] = useState('')
+    const [modalOpen, setModalOpen] = useState(false);
+    const [event, setEvent] = useState()
 
     const onCheck = (checked) => {
         setChecked(checked);
@@ -26,8 +31,11 @@ const SiteTree = () => {
     const onClick = (e) => {
         console.log(e)
         if (e.value === '+'){
-
-            console.log('+ clicked')
+            setEvent(e)
+            setActiveNode(null)
+            handleClickOpen()
+            
+            
 
 
 
@@ -36,18 +44,24 @@ const SiteTree = () => {
     //         if (!draw){
     //             addItem(e)
     //         }
-    //   } else if (e.value === 'TEST'){
-    //       console.log('Test was clicked')
       }
     }
+    const handleClickOpen = () => {
+        setModalOpen(true);
+      };
+
     const addItem = (target) => {
         // updateDM()
         let newNode = {
-                value: 'TEST',
-                label: <AddNodeForm/>,
+                value: value,
+                label: value,
+                latLngArr: [],
+                apiPath: '',
+                nodeType: nodeType,
                 icon: ''
                 // icon: <FontAwesomeIcon icon={faHome} />,
         }
+        setActiveNode(newNode)
         setNodes(nodes.map(item => 
             item.children === target.parent.children
             ? {...item, children : target.parent.children.concat(newNode)} 
@@ -67,6 +81,7 @@ const SiteTree = () => {
             onClick={onClick}
         >
         </CheckboxTree>
+        <AddNodeModal modalOpen={modalOpen} setModalOpen={setModalOpen} value={value} setValue={setValue} nodeType={nodeType} setNodeType={setNodeType} addItem={addItem} event={event} setEvent={setEvent}/>
         </>
     );
 }

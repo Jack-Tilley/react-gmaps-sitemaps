@@ -18,15 +18,25 @@ const options = {
 }
 
 const DrawingComponent = () => {
-    const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes] = useContext(MapContext);
+    const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes, activeNode, setActiveNode] = useContext(MapContext);
 
     const onPolylineComplete = polyline => {
-        console.log(polyline.getPath().getArray().toString())
+        // console.log(polyline.getPath().getArray().toString())
+        let roughPath = polyline.getPath().getArray().toString().split(",")
+        let path = []
+        for (let i=0; i<roughPath.length; i+=2){
+            path.push(roughPath[i] + "," + roughPath[i+1])
+        }
+        console.log(path)
+        let newActiveNode = activeNode
+        newActiveNode.latLngArr = path
+        setActiveNode(newActiveNode)
         setDraw(false) // we do this instead of !draw because we want drawing component to leave when a new one is added
     }
     
     const onMarkerComplete = marker => {
-        console.log("(" + marker.position.lat() + "," + marker.position.lng() + ")")
+        let position = "(" + marker.position.lat() + "," + marker.position.lng() + ")"
+        console.log(position)
         setDraw(false) // we do this instead of !draw because we want drawing component to leave when a new one is added
     }
     const onOverlayComplete = e => {

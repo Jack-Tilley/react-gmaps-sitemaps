@@ -14,35 +14,37 @@ const AddNodeModal = ({modalOpen, setModalOpen, value, setValue, nodeType, setNo
   const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes] = useContext(MapContext)
   
 
-  const handleClose = (type) => {
+  const handleSubmit = () => {
     setDraw(true)
-
-    // add coords here before we add the item
     addItem(event)
     setModalOpen(false);
     setEvent('')
   };
 
-  const handleMarker = () => {
-    console.log('MARKER', value)
-    setNodeType('marker')
+  const handleClose = () => {
+    setModalOpen(false);
+  };
 
-    handleClose()
+//   const handleMarker = () => {
+//     console.log('MARKER', value)
+//     setNodeType('marker')
+
+//     handleClose()
     
-  }
-  const handlePolyline = () => {
-    console.log('POLYLINE', value)
-    setNodeType('polyline')
+//   }
+//   const handlePolyline = () => {
+//     console.log('POLYLINE', value)
+//     setNodeType('polyline')
 
-    handleClose()
+//     handleClose()
     
-  }
-  const handlePolygon = () => {
-    console.log('POLYGON', value)
-    setNodeType('polygon')
+//   }
+//   const handlePolygon = () => {
+//     console.log('POLYGON', value)
+//     setNodeType('polygon')
 
-    handleClose()
-  }
+//     handleClose()
+//   }
 
   return (
     <div>
@@ -67,7 +69,10 @@ const AddNodeModal = ({modalOpen, setModalOpen, value, setValue, nodeType, setNo
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleMarker} color="primary">
+          <Button onClick={handleSubmit} color="primary">
+            Go
+          </Button>
+          {/* <Button onClick={handleMarker} color="primary">
             Add Marker
           </Button>
           <Button onClick={handlePolyline} color="primary">
@@ -75,7 +80,7 @@ const AddNodeModal = ({modalOpen, setModalOpen, value, setValue, nodeType, setNo
           </Button>
           <Button onClick={handlePolygon} color="primary">
             Add Polygon
-          </Button>
+          </Button> */}
         </DialogActions>
       </Dialog>
     </div>

@@ -27,21 +27,27 @@ const DrawingComponent = () => {
         for (let i=0; i<roughPath.length; i+=2){
             path.push(roughPath[i] + "," + roughPath[i+1])
         }
-        console.log(path)
-        let newActiveNode = activeNode
-        newActiveNode.latLngArr = path
-        setActiveNode(newActiveNode)
+
+        handleActiveNodeChange(path, "polyline")
         setDraw(false) // we do this instead of !draw because we want drawing component to leave when a new one is added
     }
     
     const onMarkerComplete = marker => {
-        let position = "(" + marker.position.lat() + "," + marker.position.lng() + ")"
-        console.log(position)
+        let position = ["(" + marker.position.lat() + ", " + marker.position.lng() + ")"]
+        handleActiveNodeChange(position, "marker")
         setDraw(false) // we do this instead of !draw because we want drawing component to leave when a new one is added
     }
+
     const onOverlayComplete = e => {
         // add overlay to nodes
         console.log('Drawing component unmounted')
+    }
+
+    const handleActiveNodeChange = (position, nodeType) =>{
+        let newActiveNode = activeNode
+        newActiveNode.latLngArr = position
+        newActiveNode.nodeType = nodeType
+        setActiveNode(newActiveNode)
     }
     
 

@@ -5,13 +5,14 @@ import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import AddNodeForm from './AddNodeForm'
+import {parse, stringify} from 'flatted';
+
 import AddNodeModal from './AddNodeModal'
 import {MapContext} from './MapContext'
 
 
 const SiteTree = () => {
-    const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes, activeNode, setActiveNode] = useContext(MapContext);
+    const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes, activeNode, setActiveNode, icon, setIcon] = useContext(MapContext);
     const [checked, setChecked] = useState(['Mods'])
     const [expanded, setExpanded] = useState([])
     const [value, setValue]= useState('')
@@ -19,7 +20,11 @@ const SiteTree = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [event, setEvent] = useState()
 
-    const onCheck = (checked) => {
+    const onCheck = (checked, targetNode) => {
+        // let x = parse(stringify(targetNode))
+        // console.log(x)
+        // console.log(targetNode["nodeReference"])
+        // targetNode.nodeReference.visible = false
         setChecked(checked);
         // console.log(checked)
     }
@@ -28,24 +33,16 @@ const SiteTree = () => {
         setExpanded(expanded);
         // console.log(expanded)
     }
+
     const onClick = (e) => {
         console.log(e)
         if (e.value === '+'){
             setEvent(e)
             setActiveNode(null)
             handleClickOpen()
-            
-            
-
-
-
-            // setDraw(true)
-
-    //         if (!draw){
-    //             addItem(e)
-    //         }
       }
     }
+
     const handleClickOpen = () => {
         setModalOpen(true);
       };
@@ -58,7 +55,7 @@ const SiteTree = () => {
                 latLngArr: [],
                 apiPath: '',
                 nodeType: nodeType,
-                icon: ''
+                icon: icon,
                 // icon: <FontAwesomeIcon icon={faHome} />,
         }
         setActiveNode(newNode)

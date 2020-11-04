@@ -6,11 +6,13 @@ import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {BusinessCenter, Add} from '@material-ui/icons';
 
 const nodes1 = [
     {
         value: 'Site1',
         label: 'Site1',
+        icon: <BusinessCenter/>,
         apiPath: 'HI/there',
         latLngArr: ['40'],
         nodeType: 'SITE',
@@ -21,24 +23,24 @@ const nodes1 = [
                 apiPath: 'HI/there',
                 latLngArr: ['40'],
                 nodeType: 'ADD',
-                icon: <FontAwesomeIcon icon={faHome} />,
+                icon: <Add />,
                 disabled: true,
             },
             {
                 value: 'Trench',
                 label: 'Trench',
+                icon: <BusinessCenter/>,
                 apiPath: 'HI/there',
                 latLngArr: ['40', '50'],
                 nodeType: 'POLYLINE',
-                icon: <i className="far fa-file-pdf" />,
             },
             {
                 value: 'Tools1',
                 label: 'Tools',
+                icon: <BusinessCenter/>,
                 apiPath: 'HI/there',
                 latLngArr: ['40'],
                 nodeType: 'MARKER',
-                icon: <i className="far fa-file-alt" />,
             },
         ],
     },
@@ -76,13 +78,14 @@ export const MapProvider = props => {
   const [nodes, setNodes] = useState(nodes1)
   const [activeNode, setActiveNode] = useState(null)
   const [draw, setDraw] = useState(false)
+  const [icon, setIcon] = useState(null)
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
     });
 
   return (
-      <MapContext.Provider value={[myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes, activeNode, setActiveNode]}>
+      <MapContext.Provider value={[myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes, activeNode, setActiveNode, icon, setIcon]}>
         {props.children}
       </MapContext.Provider>
   )

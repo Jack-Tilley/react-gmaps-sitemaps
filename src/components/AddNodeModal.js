@@ -8,10 +8,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import IconContainer from './IconContainer'
+
 import {MapContext} from './MapContext'
+import { Brush } from '@material-ui/icons';
 
 const AddNodeModal = ({modalOpen, setModalOpen, value, setValue, nodeType, setNodeType, addItem, event, setEvent}) => {
-  const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes] = useContext(MapContext)
+  const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes, activeNode, setActiveNode, icon, setIcon] = useContext(MapContext)
   
 
   const handleSubmit = () => {
@@ -25,32 +28,19 @@ const AddNodeModal = ({modalOpen, setModalOpen, value, setValue, nodeType, setNo
     setModalOpen(false);
   };
 
-//   const handleMarker = () => {
-//     console.log('MARKER', value)
-//     setNodeType('marker')
+  const handleButtonClick = (btnIcon) => {
+      setIcon(btnIcon)
+      console.log(icon)
+      console.log(btnIcon)
 
-//     handleClose()
-    
-//   }
-//   const handlePolyline = () => {
-//     console.log('POLYLINE', value)
-//     setNodeType('polyline')
-
-//     handleClose()
-    
-//   }
-//   const handlePolygon = () => {
-//     console.log('POLYGON', value)
-//     setNodeType('polygon')
-
-//     handleClose()
-//   }
+  }
 
   return (
     <div>
       <Dialog open={modalOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add New Node</DialogTitle>
         <DialogContent>
+          <IconContainer handleButtonClick={handleButtonClick}/>
           <DialogContentText>
             Add a new Node here (TODO: add icons for node here too)
           </DialogContentText>
@@ -72,15 +62,6 @@ const AddNodeModal = ({modalOpen, setModalOpen, value, setValue, nodeType, setNo
           <Button onClick={handleSubmit} color="primary">
             Go
           </Button>
-          {/* <Button onClick={handleMarker} color="primary">
-            Add Marker
-          </Button>
-          <Button onClick={handlePolyline} color="primary">
-            Add Polyline
-          </Button>
-          <Button onClick={handlePolygon} color="primary">
-            Add Polygon
-          </Button> */}
         </DialogActions>
       </Dialog>
     </div>

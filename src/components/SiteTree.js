@@ -5,59 +5,26 @@ import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import {parse, stringify} from 'flatted';
+
+import AddNodeModal from './AddNodeModal'
 import {MapContext} from './MapContext'
 
-const nodes1 = [
-    {
-        value: 'Site1',
-        label: 'Site1',
-        data: {info: 'CoolBeans'},
-        children: [
-            {
-                value: '+',
-                label: '+',
-                icon: <FontAwesomeIcon icon={faHome} />,
-                disabled: true,
-            },
-            {
-                value: 'Trench',
-                label: 'Trench',
-                icon: <i className="far fa-file-pdf" />,
-            },
-            {
-                value: 'Tools1',
-                label: 'Tools',
-                data: {info: 'CoolBeans'},
-                icon: <i className="far fa-file-alt" />,
-            },
-        ],
-    },
-    {
-        value: 'Site2',
-        label: 'Site2',
-        children: [
-            {
-                value: 'Tools2',
-                label: 'Tools',
-                icon: <i className="fa fa-file-image-o" />,
-            },
-            {
-                value: 'Mods',
-                label: 'Mods',
-                icon: <i className="fa fa-file-image-o" />,
-            },
-        ],
-    },
-];
 
 const SiteTree = () => {
-    const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw] = useContext(MapContext);
-    const [nodes, setNodes] = useState(nodes1)
+    const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes, activeNode, setActiveNode, icon, setIcon] = useContext(MapContext);
     const [checked, setChecked] = useState(['Mods'])
     const [expanded, setExpanded] = useState([])
-    const [target, setTarget] = useState('')
+    const [value, setValue]= useState('')
+    const [nodeType, setNodeType] = useState('')
+    const [modalOpen, setModalOpen] = useState(false);
+    const [event, setEvent] = useState()
 
-    const onCheck = (checked) => {
+    const onCheck = (checked, targetNode) => {
+        // let x = parse(stringify(targetNode))
+        // console.log(x)
+        // console.log(targetNode["nodeReference"])
+        // targetNode.nodeReference.visible = false
         setChecked(checked);
         // console.log(checked)
     }
@@ -66,17 +33,37 @@ const SiteTree = () => {
         setExpanded(expanded);
         // console.log(expanded)
     }
+
     const onClick = (e) => {
         console.log(e)
         if (e.value === '+'){
-            console.log('+ clicked')
-            // we set this to true instead of !draw because we dont want the user to be able to click it again
-            setDraw(true)
+            setEvent(e)
+            setActiveNode(null)
+            handleClickOpen()
       }
     }
 
-    const updateNodes = (newNodes) =>{
-        setNodes(newNodes)
+    const handleClickOpen = () => {
+        setModalOpen(true);
+      };
+
+    const addItem = (target) => {
+        // updateDM()
+        let newNode = {
+                value: value,
+                label: value,
+                latLngArr: [],
+                apiPath: '',
+                nodeType: nodeType,
+                icon: icon,
+                // icon: <FontAwesomeIcon icon={faHome} />,
+        }
+        setActiveNode(newNode)
+        setNodes(nodes.map(item => 
+            item.children === target.parent.children
+            ? {...item, children : target.parent.children.concat(newNode)} 
+            : item
+        )); 
     }
 
     return (
@@ -91,6 +78,7 @@ const SiteTree = () => {
             onClick={onClick}
         >
         </CheckboxTree>
+        <AddNodeModal modalOpen={modalOpen} setModalOpen={setModalOpen} value={value} setValue={setValue} nodeType={nodeType} setNodeType={setNodeType} addItem={addItem} event={event} setEvent={setEvent}/>
         </>
     );
 }

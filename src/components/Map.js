@@ -3,13 +3,14 @@ import {MapContext} from './MapContext'
 import { GoogleMap } from '@react-google-maps/api'
 import DrawingComponent from './DrawingComponent'
 
+
 const options = {
   disableDefaultUI: true,
   zoomControl: true,
 }
 
 const Map = () => {
-  const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw] = useContext(MapContext);
+  const [ myMap, setMyMap, center, setCenter, isLoaded, draw, setDraw, nodes, setNodes] = useContext(MapContext);
   
   const renderMap = () => (
     <>

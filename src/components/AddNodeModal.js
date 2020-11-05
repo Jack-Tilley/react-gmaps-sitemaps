@@ -30,8 +30,8 @@ const AddNodeModal = ({modalOpen, setModalOpen, value, setValue, nodeType, setNo
 
   const handleButtonClick = (btnIcon) => {
       setIcon(btnIcon)
-      console.log(icon)
-      console.log(btnIcon)
+    //   console.log(icon)
+    //   console.log(btnIcon)
 
   }
 
@@ -42,7 +42,7 @@ const AddNodeModal = ({modalOpen, setModalOpen, value, setValue, nodeType, setNo
         <DialogContent>
           <IconContainer handleButtonClick={handleButtonClick}/>
           <DialogContentText>
-            Add a new Node here (TODO: add icons for node here too)
+            Add a new Node here
           </DialogContentText>
           <TextField
             autoFocus
